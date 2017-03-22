@@ -1,0 +1,10 @@
+// @flow
+
+import { simpleRequest } from './Client'
+
+// flow types
+import type { FetchOptions } from './Client';
+
+{% for path in paths %}
+    {% include 'operation.twig' with {'operation': path} %}
+{% endfor %}

@@ -5,10 +5,61 @@
 
 namespace SocialConnect\SCG\Command;
 
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 class Generate extends \Symfony\Component\Console\Command\Command
 {
     public function configure()
     {
-        $this->setName('generate');
+        $this->setName('generate')
+            ->addArgument('swagger-path', InputArgument::REQUIRED, 'Path to swagger file')
+            ->addArgument('output-path', InputArgument::REQUIRED, 'Where we should put generate module');
+    }
+
+    public function execute(InputInterface $input, OutputInterface $output)
+    {
+        $swaggerPath = $input->getArgument('swagger-path');
+        $outputPath = $input->getArgument('output-path');
+
+
+        $swaggerPathContent = file_get_contents($swaggerPath);
+
+        $swaggerSerializer = new \Swagger\Serializer();
+
+        /** @var \Swagger\Annotations\Swagger $swagger */
+        $swagger = $swaggerSerializer->deserialize(
+            $swaggerPathContent,
+            \Swagger\Annotations\Swagger::class
+        );
+
+        $loader = new \Twig_Loader_Filesystem(
+            [
+                realpath(__DIR__ . '/../') . '/resource/js/'
+            ]
+        );
+
+        $twig = new \Twig_Environment($loader);
+
+        foreach ($swagger->paths as $path) {
+            if ($path->get) {
+                $currentPath = $path->get;
+                // fix path
+                $currentPath->path = $path->path;
+
+                $result = $twig->render(
+                    'tag.twig',
+                    [
+                        'paths' => [
+                            $currentPath
+                        ]
+                    ]
+                );
+
+                $tag = current($currentPath->tags);
+                file_put_contents($outputPath . '/' . $tag . '.js', $result);
+            }
+        }
     }
 }
