@@ -11,6 +11,7 @@ class Application extends \Symfony\Component\Console\Application
     {
         parent::__construct('Swagger CodeGen', "0.0.1");
 
+        $this->add(new Command\Check());
         $this->add(new Command\Generate());
     }
 }
