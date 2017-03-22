@@ -1,6 +1,6 @@
 
 type {{ operationId }}Params = {
 {% for parameter in parameters %}
-    {{ parameter.name }}: any,
+    {{ parameter.name }}{{ parameter.required ? ':' : ':?' }} any,
 {% endfor %}
 }
