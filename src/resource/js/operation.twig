@@ -3,5 +3,10 @@
 export function {{ operation.operationId }}(params: {{ operation.operationId }}Params, options:? FetchOptions): Promise<any> {
     const baseUrl = `{{ operation.path }}`.replace(`{${"id"}}`, `${params.id}`);
 
+{% if operation.method|upper == 'GET' %}
     return simpleRequest(baseUrl);
+{% else %}
+    let fetchOptions: FetchOptions = Object.assign({}, { method: "{{ operation.method|upper }}" }, options);
+    return simpleRequest(baseUrl, fetchOptions);
+{% endif %}
 }
