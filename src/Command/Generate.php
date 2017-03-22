@@ -42,24 +42,61 @@ class Generate extends \Symfony\Component\Console\Command\Command
 
         $twig = new \Twig_Environment($loader);
 
+        $tags = [];
+
+        $populateTag = function ($path) use (&$tags) {
+            $tag = current($path->tags);
+
+            if (isset($tags[$tag])) {
+                $tags[$tag][] = $path;
+            } else {
+                $tags[$tag] = [$path];
+            }
+        };
+
         foreach ($swagger->paths as $path) {
             if ($path->get) {
                 $currentPath = $path->get;
                 // fix path
                 $currentPath->path = $path->path;
 
-                $result = $twig->render(
-                    'tag.twig',
-                    [
-                        'paths' => [
-                            $currentPath
-                        ]
-                    ]
-                );
-
-                $tag = current($currentPath->tags);
-                file_put_contents($outputPath . '/' . $tag . '.js', $result);
+                $populateTag($currentPath);
             }
+
+            if ($path->post) {
+                $currentPath = $path->post;
+                // fix path
+                $currentPath->path = $path->path;
+
+                $populateTag($currentPath);
+            }
+
+            if ($path->put) {
+                $currentPath = $path->put;
+                // fix path
+                $currentPath->path = $path->path;
+
+                $populateTag($currentPath);
+            }
+
+            if ($path->delete) {
+                $currentPath = $path->delete;
+                // fix path
+                $currentPath->path = $path->path;
+
+                $populateTag($currentPath);
+            }
+        }
+
+        foreach ($tags as $tag => $paths) {
+            $result = $twig->render(
+                'tag.twig',
+                [
+                    'paths' => $paths
+                ]
+            );
+
+            file_put_contents($outputPath . '/' . $tag . '.js', $result);
         }
     }
 }
