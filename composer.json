@@ -1,0 +1,19 @@
+{
+    "name": "socialconnect/swagger-codegen",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitry Patsura",
+            "email": "talk@dmtry.me"
+        }
+    ],
+    "require": {
+        "symfony/console": "^3.2",
+        "zircote/swagger-php": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialConnect\\SCG\\": "src/"
+        }
+    }
+}
