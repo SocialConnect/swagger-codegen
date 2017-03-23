@@ -11,15 +11,19 @@ export function {{ operation.operationId }}(params: {{ operation.operationId }}P
 {% endfor %}
 {% endspaceless %}
 {% if hasPathParameters %}
+{% for parameter in operation.parameters %}
+{% if parameter.in == "path" %}
+    if (params["{{ parameter.name }}"] == null) {
+        throw new Error("Missing required parameter {{ parameter.name }} when calling {{ operation.operationId }}");
+    }
+{% endif %}
+{% endfor %}
+
     const baseUrl = `{{ operation.path }}`.replace(`{${"id"}}`, `${params.id}`);
+    delete params.id;
 {% else %}
     const baseUrl = "{{ operation.path }}";
 {% endif %}
 
-{% if operation.method|upper == 'GET' %}
-    return simpleRequest(baseUrl);
-{% else %}
-    let fetchOptions: FetchOptions = Object.assign({}, { method: "{{ operation.method|upper }}" }, options);
-    return simpleRequest(baseUrl, fetchOptions);
-{% endif %}
+    return request(baseUrl, params, "{{ operation.method|upper }}", options);
 }
