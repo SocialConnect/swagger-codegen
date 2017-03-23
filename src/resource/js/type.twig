@@ -1,6 +1,0 @@
-
-type {{ operationId }}Params = {
-{% for parameter in parameters %}
-    {{ parameter.name }}{{ parameter.required ? ':' : ':?' }} {{ flowType(parameter)|raw }},
-{% endfor %}
-}

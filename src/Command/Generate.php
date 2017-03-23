@@ -24,6 +24,14 @@ function flowTypeEscape($type, $values) {
         return implode(' | ', $values);
 }
 
+function stripDefinitions($value) {
+    if (strpos($value, '#/definitions/') === 0) {
+        return substr($value, 14);
+    }
+
+    return $value;
+}
+
 class Generate extends \Symfony\Component\Console\Command\Command
 {
     public function configure()
@@ -56,9 +64,21 @@ class Generate extends \Symfony\Component\Console\Command\Command
         );
 
         $twig = new \Twig_Environment($loader);
+        $twig->addFilter(
+            new \Twig_Filter(
+                'flowFieldEscape',
+                function ($value) {
+                    if ($value == 'new' || strpos($value, '-') !== false) {
+                        return '"' . $value . '"';
+                    }
+
+                    return $value;
+                }
+            )
+        );
         $twig->addFunction(
             new \Twig_Function(
-                'flowType',
+                'flowParameterType',
                 function (\Swagger\Annotations\Parameter $parameter) {
                     if ($parameter->enum) {
                         return flowTypeEscape($parameter->type, $parameter->enum);
@@ -75,6 +95,41 @@ class Generate extends \Symfony\Component\Console\Command\Command
                             return "Array<any>";
                         default:
                             return $parameter->type;
+                    }
+                }
+            )
+        );
+        $twig->addFunction(
+            new \Twig_Function(
+                'flowPropertyType',
+                function (\Swagger\Annotations\Property $parameter) {
+                    if ($parameter->enum) {
+                        return flowTypeEscape($parameter->type, $parameter->enum);
+                    }
+
+                    switch ($parameter->type) {
+                        case 'integer':
+                            return 'number';
+                        case 'array':
+                            if ($parameter->items) {
+                                if ($parameter->items->type) {
+                                    return "Array<{$parameter->items->type}>";
+                                }
+
+                                if ($parameter->items->{'$ref'}) {
+                                    $ref = stripDefinitions($parameter->items->{'$ref'});
+                                    return "Array<{$ref}>";
+                                }
+
+                                if ($parameter->items->ref) {
+                                    $ref = stripDefinitions($parameter->items->ref);
+                                    return "Array<{$ref}>";
+                                }
+                            }
+
+                            return "Array<any>";
+                        default:
+                            return stripDefinitions($parameter->type);
                     }
                 }
             )
@@ -136,5 +191,14 @@ class Generate extends \Symfony\Component\Console\Command\Command
 
             file_put_contents($outputPath . '/' . $tag . '.js', $result);
         }
+
+        $result = $twig->render(
+            'definitions.twig',
+            [
+                'definitions' => $swagger->definitions
+            ]
+        );
+
+        file_put_contents($outputPath . '/definitions.js', $result);
     }
 }

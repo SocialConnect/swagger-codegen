@@ -1,4 +1,4 @@
-{% include 'type.twig' with {'operationId': operation.operationId, 'parameters': operation.parameters} %}
+{% include 'params.twig' with {'operationId': operation.operationId, 'parameters': operation.parameters} %}
 
 export function {{ operation.operationId }}(params: {{ operation.operationId }}Params, options:? FetchOptions): Promise<any> {
 {% spaceless %}
