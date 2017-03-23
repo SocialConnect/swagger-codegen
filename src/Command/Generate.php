@@ -41,6 +41,25 @@ class Generate extends \Symfony\Component\Console\Command\Command
         );
 
         $twig = new \Twig_Environment($loader);
+        $twig->addFunction(
+            new \Twig_Function(
+                'flowType',
+                function (\Swagger\Annotations\Parameter $parameter) {
+                    switch ($parameter->type) {
+                        case 'integer':
+                            return 'number';
+                        case 'array':
+                            if ($parameter->items) {
+                                return "Array<{$parameter->items->type}>";
+                            }
+
+                            return "Array<any>";
+                        default:
+                            return $parameter->type;
+                    }
+                }
+            )
+        );
 
         $tags = [];
 
