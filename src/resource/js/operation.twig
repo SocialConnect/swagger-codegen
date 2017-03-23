@@ -1,7 +1,20 @@
 {% include 'type.twig' with {'operationId': operation.operationId, 'parameters': operation.parameters} %}
 
 export function {{ operation.operationId }}(params: {{ operation.operationId }}Params, options:? FetchOptions): Promise<any> {
+{% spaceless %}
+{% set hasPathParameters = false %}
+
+{% for parameter in operation.parameters %}
+    {% if parameter.in == "path" %}
+        {% set hasPathParameters = true %}
+    {% endif %}
+{% endfor %}
+{% endspaceless %}
+{% if hasPathParameters %}
     const baseUrl = `{{ operation.path }}`.replace(`{${"id"}}`, `${params.id}`);
+{% else %}
+    const baseUrl = "{{ operation.path }}";
+{% endif %}
 
 {% if operation.method|upper == 'GET' %}
     return simpleRequest(baseUrl);
