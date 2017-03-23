@@ -9,6 +9,21 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+function flowTypeEscape($type, $values) {
+        $values = array_map(
+            function ($value) use ($type) {
+                if ($type == 'string') {
+                    return '"' . $value . '"';
+                }
+
+                return $value;
+            },
+            $values
+        );
+
+        return implode(' | ', $values);
+}
+
 class Generate extends \Symfony\Component\Console\Command\Command
 {
     public function configure()
@@ -45,6 +60,10 @@ class Generate extends \Symfony\Component\Console\Command\Command
             new \Twig_Function(
                 'flowType',
                 function (\Swagger\Annotations\Parameter $parameter) {
+                    if ($parameter->enum) {
+                        return flowTypeEscape($parameter->type, $parameter->enum);
+                    }
+
                     switch ($parameter->type) {
                         case 'integer':
                             return 'number';
