@@ -4,6 +4,13 @@ import { request } from './Client'
 
 // flow types
 import type { FetchOptions } from './Client';
+{% if imports|length > 0 %}
+import type {
+{% for definition in imports %}
+    {{ definition }},
+{% endfor %}
+} from './definitions';
+{% endif %}
 
 {% for path in paths %}
     {% include 'operation.twig' with {'operation': path} %}

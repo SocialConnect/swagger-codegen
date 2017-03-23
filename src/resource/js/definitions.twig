@@ -1,7 +1,7 @@
 //@flow
 
 {% for definition in definitions %}
-type {{ definition.definition }} = {
+export type {{ definition.definition }} = {
 {% for property in definition.properties %}
     {{ property.property|flowFieldEscape|raw }}{{ property.required ? ':' : ':?' }} {{ flowPropertyType(property)|raw }},
 {% endfor %}

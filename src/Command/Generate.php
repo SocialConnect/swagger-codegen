@@ -108,6 +108,8 @@ class Generate extends \Symfony\Component\Console\Command\Command
                     }
 
                     switch ($parameter->type) {
+                        case 'object':
+                            return 'Object';
                         case 'integer':
                             return 'number';
                         case 'array':
@@ -182,9 +184,37 @@ class Generate extends \Symfony\Component\Console\Command\Command
         }
 
         foreach ($tags as $tag => $paths) {
+            $imports = [];
+
+            /** @var \Swagger\Annotations\Post $path */
+            foreach ($paths as $path) {
+                $path->return = 'any';
+
+                if ($path->responses) {
+                    foreach ($path->responses as $response) {
+                        if ($response->schema) {
+                            if ($response->schema->{'$ref'}) {
+                                $definition = stripDefinitions($response->schema->{'$ref'});
+                                $imports[$definition] = $definition;
+
+                                $path->return = $definition;
+                            }
+
+                            if ($response->schema->ref) {
+                                $definition = stripDefinitions($response->schema->ref);
+                                $imports[$definition] = $definition;
+
+                                $path->return = $definition;
+                            }
+                        }
+                    }
+                }
+            }
+
             $result = $twig->render(
                 'tag.twig',
                 [
+                    'imports' => $imports,
                     'paths' => $paths
                 ]
             );
