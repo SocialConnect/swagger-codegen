@@ -57,6 +57,18 @@ class Generate extends \Symfony\Component\Console\Command\Command
             \Swagger\Annotations\Swagger::class
         );
 
+        // Better thing ;)
+        foreach ($swagger->definitions as $definition) {
+            if ($definition->required) {
+                /** @var \Swagger\Annotations\Property $property */
+                foreach ($definition->properties as $property) {
+                    if (in_array($property->property, $definition->required)) {
+                        $property->required = true;
+                    }
+                }
+            }
+        }
+
         $loader = new \Twig_Loader_Filesystem(
             [
                 realpath(__DIR__ . '/../') . '/resource/js/'
