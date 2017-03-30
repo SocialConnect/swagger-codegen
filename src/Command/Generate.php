@@ -109,6 +109,15 @@ class Generate extends \Symfony\Component\Console\Command\Command
 
                     switch ($parameter->type) {
                         case 'object':
+                            // @todo Problem in Swagger Project
+                            if ($parameter->{'$ref'}) {
+                                return stripDefinitions($parameter->{'$ref'});
+                            }
+
+                            if ($parameter->ref) {
+                                return stripDefinitions($parameter->ref);
+                            }
+
                             return 'Object';
                         case 'integer':
                             return 'number';
@@ -118,6 +127,7 @@ class Generate extends \Symfony\Component\Console\Command\Command
                                     return "Array<{$parameter->items->type}>";
                                 }
 
+                                // @todo Problem in Swagger Project
                                 if ($parameter->items->{'$ref'}) {
                                     $ref = stripDefinitions($parameter->items->{'$ref'});
                                     return "Array<{$ref}>";
