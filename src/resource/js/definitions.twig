@@ -3,7 +3,7 @@
 {% for definition in definitions %}
 export type {{ definition.definition }} = {
 {% for property in definition.properties %}
-    {{ property.property|flowFieldEscape|raw }}{{ property.required ? ':' : ':?' }} {{ flowPropertyType(property)|raw }},
+    {{ property.property|flowFieldEscape|raw }}{{ property.required ? ':' : '?:' }} {{ flowPropertyType(property)|raw }},
 {% endfor %}
 }
 
