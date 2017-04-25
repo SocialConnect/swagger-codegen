@@ -1,0 +1,162 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "GitHub API",
+    "description": "GitHub API",
+    "termsOfService": "terms",
+    "license": {
+      "name": "proprietary"
+    },
+    "version": "1"
+  },
+  "host": "api.github.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get a single user",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserEntity"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get the authenticated user",
+        "operationId": "getUser",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserEntity"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/repos/{id}": {
+      "get": {
+        "tags": [
+          "Repository"
+        ],
+        "summary": "Get information about repository by $id",
+        "operationId": "getRepository",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RepositoryEntity"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "RepositoryEntity": {
+      "required": [
+        "url",
+        "sha",
+        "html_url",
+        "comments_url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "example": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e"
+        },
+        "sha": {
+          "type": "string",
+          "example": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+        },
+        "html_url": {
+          "type": "string",
+          "example": "https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e"
+        },
+        "comments_url": {
+          "type": "string",
+          "example": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments"
+        }
+      }
+    },
+    "UserEntity": {
+      "required": [
+        "login",
+        "id",
+        "avatar_url"
+      ],
+      "properties": {
+        "login": {
+          "type": "string",
+          "example": "octocat"
+        },
+        "id": {
+          "type": "string",
+          "example": "1"
+        },
+        "avatar_url": {
+          "type": "string",
+          "example": "1"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "jwt": {
+      "type": "apiKey",
+      "description": "JWT token created from POST /token",
+      "name": "X-AUTH-TOKEN",
+      "in": "header"
+    }
+  }
+}
