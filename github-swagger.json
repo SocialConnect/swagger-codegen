@@ -71,6 +71,39 @@
         }
       }
     },
+    "/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Lists all users, in the order that they signed up on GitHub. This list includes personal user accounts and organization accounts.",
+        "operationId": "getUsers",
+        "parameters": [
+          {
+            "name": "since",
+            "in": "query",
+            "description": "The integer ID of the last User that you've seen.",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserEntity"
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/repos/{id}": {
       "get": {
         "tags": [
