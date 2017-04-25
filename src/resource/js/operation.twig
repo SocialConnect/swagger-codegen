@@ -4,6 +4,7 @@ export function {{ operation.operationId }}(params: {{ operation.operationId }}P
 {% spaceless %}
 {% set hasPathParameters = false %}
 {% set hasFileParameter = false %}
+{% set pathParameterName = "" %}
 
 {% for parameter in operation.parameters %}
     {% if parameter.in == "path" %}
@@ -17,13 +18,14 @@ export function {{ operation.operationId }}(params: {{ operation.operationId }}P
 {% if hasPathParameters %}
 {% for parameter in operation.parameters %}
 {% if parameter.in == "path" %}
+{% set pathParameterName = parameter.name %}
     if (params["{{ parameter.name }}"] == null) {
         throw new Error("Missing required parameter {{ parameter.name }} when calling {{ operation.operationId }}");
     }
 {% endif %}
 {% endfor %}
 
-    const baseUrl = `{{ operation.path }}`.replace(`{${"id"}}`, `${params.id}`);
+    const baseUrl = `{{ operation.path }}`.replace(`{${"{{ pathParameterName }}"}}`, `${params.id}`);
     delete params.id;
 {% else %}
     const baseUrl = "{{ operation.path }}";
