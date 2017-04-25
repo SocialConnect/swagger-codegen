@@ -75,7 +75,12 @@ class Generate extends \Symfony\Component\Console\Command\Command
             ]
         );
 
-        $twig = new \Twig_Environment($loader);
+        $twig = new \Twig_Environment(
+            $loader,
+            [
+                'autoescape' => false
+            ]
+        );
         $twig->addFilter(
             new \Twig_Filter(
                 'flowFieldEscape',
@@ -202,10 +207,27 @@ class Generate extends \Symfony\Component\Console\Command\Command
                 $path->return = 'any';
 
                 if ($path->responses) {
+                    /** @var \Swagger\Annotations\Response $response */
                     foreach ($path->responses as $response) {
                         if ($response->schema) {
-                            if ($response->schema->ref) {
-                                $definition = stripDefinitions($response->schema->ref);
+                            $schema = $response->schema;
+
+                            if ($schema->type === 'array') {
+                                if ($schema->items) {
+                                    if ($schema->items->ref) {
+                                        $definition = stripDefinitions($schema->items->ref);
+                                        $imports[$definition] = $definition;
+
+                                        $path->return = "Array<{$definition}>";
+                                        continue;
+                                    }
+                                }
+
+                                $path->return = "Array<any>";
+                            }
+
+                            if ($schema->ref) {
+                                $definition = stripDefinitions($schema->ref);
                                 $imports[$definition] = $definition;
 
                                 $path->return = $definition;
