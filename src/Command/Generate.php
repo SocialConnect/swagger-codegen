@@ -252,5 +252,11 @@ class Generate extends \Symfony\Component\Console\Command\Command
         );
 
         file_put_contents($outputPath . '/definitions.js', $result);
+
+        $result = $twig->render(
+            'Client.twig'
+        );
+
+        file_put_contents($outputPath . '/Client.js', $result);
     }
 }
