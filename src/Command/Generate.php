@@ -121,11 +121,6 @@ class Generate extends \Symfony\Component\Console\Command\Command
 
                     switch ($parameter->type) {
                         case 'object':
-                            // @todo Problem in Swagger Project
-                            if ($parameter->{'$ref'}) {
-                                return stripDefinitions($parameter->{'$ref'});
-                            }
-
                             if ($parameter->ref) {
                                 return stripDefinitions($parameter->ref);
                             }
@@ -137,12 +132,6 @@ class Generate extends \Symfony\Component\Console\Command\Command
                             if ($parameter->items) {
                                 if ($parameter->items->type) {
                                     return "Array<{$parameter->items->type}>";
-                                }
-
-                                // @todo Problem in Swagger Project
-                                if ($parameter->items->{'$ref'}) {
-                                    $ref = stripDefinitions($parameter->items->{'$ref'});
-                                    return "Array<{$ref}>";
                                 }
 
                                 if ($parameter->items->ref) {
@@ -215,13 +204,6 @@ class Generate extends \Symfony\Component\Console\Command\Command
                 if ($path->responses) {
                     foreach ($path->responses as $response) {
                         if ($response->schema) {
-                            if ($response->schema->{'$ref'}) {
-                                $definition = stripDefinitions($response->schema->{'$ref'});
-                                $imports[$definition] = $definition;
-
-                                $path->return = $definition;
-                            }
-
                             if ($response->schema->ref) {
                                 $definition = stripDefinitions($response->schema->ref);
                                 $imports[$definition] = $definition;
