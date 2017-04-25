@@ -133,6 +133,77 @@
           }
         }
       }
+    },
+    "/users/{username}/repos": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List user repositories",
+        "operationId": "getRepositoriesByUsername",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "username",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type",
+            "required": false,
+            "type": "string",
+            "default": "owner",
+            "enum": [
+              "all",
+              "owner",
+              "member"
+            ]
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "sort",
+            "required": false,
+            "type": "string",
+            "default": "full_name",
+            "enum": [
+              "created",
+              "updated",
+              "pushed",
+              "full_name"
+            ]
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "description": "direction",
+            "required": false,
+            "type": "string",
+            "default": "desc",
+            "enum": [
+              "asc",
+              "desc"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserEntity"
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
     }
   },
   "definitions": {
