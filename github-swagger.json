@@ -209,12 +209,24 @@
   "definitions": {
     "RepositoryEntity": {
       "required": [
+        "id",
+        "name",
         "url",
         "sha",
         "html_url",
-        "comments_url"
+        "comments_url",
+        "fork"
       ],
       "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": "33387350"
+        },
+        "name": {
+          "type": "string",
+          "example": "ovr/ghubber"
+        },
         "url": {
           "type": "string",
           "example": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e"
@@ -230,6 +242,10 @@
         "comments_url": {
           "type": "string",
           "example": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments"
+        },
+        "fork": {
+          "type": "boolean",
+          "example": false
         }
       }
     },
