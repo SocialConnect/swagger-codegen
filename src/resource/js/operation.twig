@@ -25,8 +25,8 @@ export function {{ operation.operationId }}(params: {{ operation.operationId }}P
 {% endif %}
 {% endfor %}
 
-    const baseUrl = `{{ operation.path }}`.replace(`{${"{{ pathParameterName }}"}}`, `${params.id}`);
-    delete params.id;
+    const baseUrl = `{{ operation.path }}`.replace(`{${"{{ pathParameterName }}"}}`, `${params.{{ pathParameterName }}}`);
+    delete params.{{ pathParameterName }};
 {% else %}
     const baseUrl = "{{ operation.path }}";
 {% endif %}
