@@ -104,21 +104,29 @@
         }
       }
     },
-    "/repos/{id}": {
+    "/repos/{owner}/{repo}": {
       "get": {
         "tags": [
           "Repository"
         ],
-        "summary": "Get information about repository by $id",
+        "summary": "Get information about repository by $owner and $repo",
         "operationId": "getRepository",
         "parameters": [
           {
-            "name": "id",
+            "name": "owner",
             "in": "path",
-            "description": "id",
+            "description": "Repository owner",
             "required": true,
             "type": "string",
-            "format": "int64"
+            "example": "ovr"
+          },
+          {
+            "name": "repo",
+            "in": "path",
+            "description": "Repository name",
+            "required": true,
+            "type": "string",
+            "example": "ghubber"
           }
         ],
         "responses": {
