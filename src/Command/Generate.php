@@ -257,8 +257,18 @@ class Generate extends \Symfony\Component\Console\Command\Command
 
         file_put_contents($outputPath . '/definitions.js', $result);
 
+
+        $path = current($swagger->schemes) . '://' . $swagger->host;
+
+        if ($swagger->basePath) {
+            $path .= $swagger->basePath;
+        }
+
         $result = $twig->render(
-            'Client.twig'
+            'Client.twig',
+            [
+                'path' => $path
+            ]
         );
 
         file_put_contents($outputPath . '/Client.js', $result);
