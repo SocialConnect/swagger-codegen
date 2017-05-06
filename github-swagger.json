@@ -279,6 +279,11 @@
   },
   "definitions": {
     "AuthorizationEntity": {
+      "required": [
+        "id",
+        "token",
+        "hashed_token"
+      ],
       "properties": {
         "id": {
           "type": "integer",
