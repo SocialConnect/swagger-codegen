@@ -142,6 +142,69 @@
         }
       }
     },
+    "/authorizations": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Create a new authorization",
+        "operationId": "createAuthorization",
+        "security": "basic",
+        "parameters": [
+          {
+            "name": "scopes",
+            "in": "body",
+            "description": "A list of scopes that this authorization is in.",
+            "required": false,
+            "type": "array"
+          },
+          {
+            "name": "note",
+            "in": "body",
+            "description": "A note to remind you what the OAuth token is for. Tokens not associated with a specific OAuth application (i.e. personal access tokens) must have a unique note.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "note_url",
+            "in": "body",
+            "description": "A URL to remind you what app the OAuth token is for.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "client_id",
+            "in": "body",
+            "description": "The 20 character OAuth app client key for which to create the token.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "client_secret",
+            "in": "body",
+            "description": "The 40 character OAuth app client secret for which to create the token.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "fingerprint",
+            "in": "body",
+            "description": "A unique string to distinguish an authorization from others created for the same client ID and user.",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/AuthorizationEntity"
+            }
+          }
+        }
+      }
+    },
     "/users/{username}/repos": {
       "get": {
         "tags": [
@@ -215,6 +278,23 @@
     }
   },
   "definitions": {
+    "AuthorizationEntity": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": "33387350"
+        },
+        "token": {
+          "type": "string",
+          "example": "b4edd09a7cbeebb9a562f69640a5eb17aj158e1d"
+        },
+        "hashed_token": {
+          "type": "string",
+          "example": "40f5a502d9e2563lcz58dfcade94a9aeb589ac6afd8c453880a70dec31b16144"
+        }
+      }
+    },
     "RepositoryEntity": {
       "required": [
         "id",
@@ -290,6 +370,10 @@
       "description": "JWT token created from POST /token",
       "name": "X-AUTH-TOKEN",
       "in": "header"
+    },
+    "basic": {
+      "type": "basic",
+      "description": "Basic authentication"
     }
   }
 }
