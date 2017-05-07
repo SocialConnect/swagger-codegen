@@ -278,6 +278,33 @@
     }
   },
   "definitions": {
+    "OrganizationEntity": {
+      "required": [
+        "id",
+        "login",
+        "avatar_url",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 8386838
+        },
+        "login": {
+          "type": "string",
+          "example": "SocialConnect"
+        },
+        "avatar_url": {
+          "type": "string",
+          "example": "https://avatars1.githubusercontent.com/u/8386838?v=3"
+        },
+        "description": {
+          "type": "string",
+          "example": "Connect your code with Services"
+        }
+      }
+    },
     "AuthorizationEntity": {
       "required": [
         "id",
