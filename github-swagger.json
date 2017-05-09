@@ -417,6 +417,7 @@
         "company",
         "blog",
         "location",
+        "email",
         "hireable",
         "bio",
         "public_repos",
@@ -461,6 +462,10 @@
         "location": {
           "type": "string",
           "example": "Docker, Container"
+        },
+        "email": {
+          "type": "string",
+          "example": "talk@dmtry.me"
         },
         "hireable": {
           "type": "boolean",
