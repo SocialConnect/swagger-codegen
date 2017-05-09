@@ -275,6 +275,38 @@
           }
         }
       }
+    },
+    "/users/{username}/orgs": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List user organizations",
+        "operationId": "getOrganizationsByUsername",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "username",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OrganizationEntity"
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -378,20 +410,85 @@
       "required": [
         "login",
         "id",
-        "avatar_url"
+        "avatar_url",
+        "gravatar_id",
+        "site_admin",
+        "name",
+        "company",
+        "blog",
+        "location",
+        "hireable",
+        "bio",
+        "public_repos",
+        "public_gists",
+        "followers",
+        "following"
       ],
       "properties": {
         "login": {
           "type": "string",
-          "example": "octocat"
+          "example": "ovr"
         },
         "id": {
-          "type": "string",
-          "example": "1"
+          "type": "integer",
+          "format": "int32",
+          "example": 572096
         },
         "avatar_url": {
           "type": "string",
           "example": "1"
+        },
+        "gravatar_id": {
+          "type": "string",
+          "example": ""
+        },
+        "site_admin": {
+          "type": "boolean",
+          "example": false
+        },
+        "name": {
+          "type": "string",
+          "example": "Dmitry Patsura"
+        },
+        "company": {
+          "type": "string",
+          "example": "@lowl-io @interpals"
+        },
+        "blog": {
+          "type": "string",
+          "example": "https://resume.dmtry.me/"
+        },
+        "location": {
+          "type": "string",
+          "example": "Docker, Container"
+        },
+        "hireable": {
+          "type": "boolean",
+          "example": true
+        },
+        "bio": {
+          "type": "string",
+          "example": "Hey! I am full stack web developer Who loves computer science and hipster technologies. The best way to know me will be researching on Github's profile."
+        },
+        "public_repos": {
+          "type": "integer",
+          "format": "int32",
+          "example": 168
+        },
+        "public_gists": {
+          "type": "integer",
+          "format": "int32",
+          "example": 37
+        },
+        "followers": {
+          "type": "integer",
+          "format": "int32",
+          "example": 150
+        },
+        "following": {
+          "type": "integer",
+          "format": "int32",
+          "example": 9
         }
       }
     }
