@@ -118,6 +118,28 @@ class Generate extends \Symfony\Component\Console\Command\Command
         );
         $twig->addFunction(
             new \Twig_Function(
+                'makePath',
+                function (\Swagger\Annotations\Operation $operation) {
+                    $path = $operation->path;
+
+                    if ($operation->parameters) {
+                        foreach ($operation->parameters as $parameter) {
+                            if ($parameter->in === 'path') {
+                                $path = str_replace(
+                                    '{' . $parameter->name . '}',
+                                    '${params.' . $parameter->name . '}',
+                                    $path
+                                );
+                            }
+                        }
+                    }
+
+                    return "`{$path}`";
+                }
+            )
+        );
+        $twig->addFunction(
+            new \Twig_Function(
                 'flowPropertyType',
                 function (\Swagger\Annotations\Property $parameter) {
                     if ($parameter->enum) {
