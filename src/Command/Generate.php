@@ -104,6 +104,8 @@ class Generate extends \Symfony\Component\Console\Command\Command
                     }
 
                     switch ($parameter->type) {
+                        case 'file':
+                            return 'File';
                         case 'integer':
                             return 'number';
                         case 'array':
