@@ -13,6 +13,10 @@ function buildQueryString(params: Object): string {
         .join('&');
 }
 
+export function required(key: string) {
+    throw new Error(`Missing required parameter: ${key}`);
+}
+
 export function request(url: string, params: Object, method: string = 'GET', options:? FetchOptions) {
     return new Promise(
         (resolve, reject) => {

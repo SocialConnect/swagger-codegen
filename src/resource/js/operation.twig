@@ -11,7 +11,7 @@
 export function {{ operation.operationId }}(
 {% for parameter in operation.parameters %}
 {% if parameter.in == "path" %}
-    {{ parameter.name }}: {{ flowParameterType(parameter)|raw }},
+    {{ parameter.name }}: {{ flowParameterType(parameter)|raw }} = required("{{ parameter.name }}"),
 {% endif %}
 {% endfor %}
     params: {{ operation.operationId }}Params,
