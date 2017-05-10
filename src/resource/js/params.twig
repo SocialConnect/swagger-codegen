@@ -1,6 +1,8 @@
 
 type {{ operationId }}Params = {
 {% for parameter in parameters %}
+{% if parameter.in != "path" %}
     {{ parameter.name }}{{ parameter.required ? ':' : '?:' }} {{ flowParameterType(parameter)|raw }},
+{% endif %}
 {% endfor %}
 }

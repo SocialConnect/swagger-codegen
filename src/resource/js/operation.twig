@@ -1,43 +1,25 @@
 {% include 'params.twig' with {'operationId': operation.operationId, 'parameters': operation.parameters} %}
-
-export function {{ operation.operationId }}(params: {{ operation.operationId }}Params, options:? FetchOptions): Promise<{{ operation.return }}> {
 {% spaceless %}
-{% set hasPathParameters = false %}
 {% set hasFileParameter = false %}
-{% set pathParameterName = "" %}
-
 {% for parameter in operation.parameters %}
-    {% if parameter.in == "path" %}
-        {% set hasPathParameters = true %}
-    {% endif %}
-    {% if parameter.type == "file" %}
+    {% if parameter.in == "file" %}
         {% set hasFileParameter = true %}
     {% endif %}
 {% endfor %}
 {% endspaceless %}
-{% if hasPathParameters %}
+
+export function {{ operation.operationId }}(
 {% for parameter in operation.parameters %}
 {% if parameter.in == "path" %}
-{% set pathParameterName = parameter.name %}
-    if (params["{{ parameter.name }}"] == null) {
-        throw new Error("Missing required parameter {{ parameter.name }} when calling {{ operation.operationId }}");
-    }
+    {{ parameter.name }}: {{ flowParameterType(parameter)|raw }},
 {% endif %}
 {% endfor %}
-
-    const baseUrl = {{ makePath(operation) }};
-{% for parameter in operation.parameters %}
-{% if parameter.in == "path" %}
-    delete params.{{ parameter.name }};
-{% endif %}
-{% endfor %}
-{% else %}
-    const baseUrl = "{{ operation.path }}";
-{% endif %}
-
+    params: {{ operation.operationId }}Params,
+    options:? FetchOptions
+): Promise<{{ operation.return }}> {
 {% if hasFileParameter %}
-    return formDataRequest(baseUrl, params, "{{ operation.method|upper }}", options);
+    return formDataRequest({{ makePath(operation) }}, params, "{{ operation.method|upper }}", options);
 {% else %}
-    return request(baseUrl, params, "{{ operation.method|upper }}", options);
+    return request({{ makePath(operation) }}, params, "{{ operation.method|upper }}", options);
 {% endif %}
 }

@@ -81,6 +81,7 @@ class Generate extends \Symfony\Component\Console\Command\Command
                 'autoescape' => false
             ]
         );
+
         $twig->addFilter(
             new \Twig_Filter(
                 'flowFieldEscape',
@@ -93,6 +94,7 @@ class Generate extends \Symfony\Component\Console\Command\Command
                 }
             )
         );
+
         $twig->addFunction(
             new \Twig_Function(
                 'flowParameterType',
@@ -116,6 +118,7 @@ class Generate extends \Symfony\Component\Console\Command\Command
                 }
             )
         );
+
         $twig->addFunction(
             new \Twig_Function(
                 'makePath',
@@ -127,7 +130,7 @@ class Generate extends \Symfony\Component\Console\Command\Command
                             if ($parameter->in === 'path') {
                                 $path = str_replace(
                                     '{' . $parameter->name . '}',
-                                    '${params.' . $parameter->name . '}',
+                                    '${' . $parameter->name . '}',
                                     $path
                                 );
                             }
@@ -138,6 +141,7 @@ class Generate extends \Symfony\Component\Console\Command\Command
                 }
             )
         );
+
         $twig->addFunction(
             new \Twig_Function(
                 'flowPropertyType',
