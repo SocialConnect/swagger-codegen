@@ -205,6 +205,31 @@
         }
       }
     },
+    "/authorizations/{id}": {
+      "delete": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Delete an authorization",
+        "operationId": "deleteAuthorization",
+        "security": "basic",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identifier of authorization",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/users/{username}/repos": {
       "get": {
         "tags": [
