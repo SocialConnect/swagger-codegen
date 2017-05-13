@@ -400,6 +400,29 @@
         }
       }
     },
+    "IssueEntity": {
+      "required": [
+        "id",
+        "number",
+        "title"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 216476314
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32",
+          "example": 32
+        },
+        "title": {
+          "type": "string",
+          "example": "mt_rand is a linear alg, will be better to provide more true way"
+        }
+      }
+    },
     "RepositoryEntity": {
       "required": [
         "id",
