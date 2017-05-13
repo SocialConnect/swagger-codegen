@@ -20,6 +20,35 @@
     "application/json"
   ],
   "paths": {
+    "/search/issues": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Search issues",
+        "operationId": "searchIssues",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/IssueEntity"
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/{id}": {
       "get": {
         "tags": [
