@@ -96,9 +96,11 @@
         "responses": {
           "200": {
             "description": "Success",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/UserEntity"
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserEntity"
+              }
             }
           },
           "404": {
@@ -127,9 +129,11 @@
         "responses": {
           "200": {
             "description": "Success",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/UserEntity"
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserEntity"
+              }
             }
           },
           "404": {
@@ -288,9 +292,11 @@
         "responses": {
           "200": {
             "description": "Success",
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/UserEntity"
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserEntity"
+              }
             }
           },
           "404": {
