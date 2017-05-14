@@ -41,10 +41,8 @@
           "200": {
             "description": "Success",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/IssueEntity"
-              }
+              "type": "object",
+              "$ref": "#/definitions/SearchIssuesResult"
             }
           }
         }
@@ -71,10 +69,8 @@
           "200": {
             "description": "Success",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/RepositoryEntity"
-              }
+              "type": "object",
+              "$ref": "#/definitions/SearchRepositoriesResult"
             }
           }
         }
@@ -480,6 +476,54 @@
         "title": {
           "type": "string",
           "example": "mt_rand is a linear alg, will be better to provide more true way"
+        }
+      }
+    },
+    "SearchIssuesResult": {
+      "required": [
+        "total_count",
+        "incomplete_results",
+        "items"
+      ],
+      "properties": {
+        "total_count": {
+          "type": "integer",
+          "format": "int32",
+          "example": 107
+        },
+        "incomplete_results": {
+          "type": "boolean",
+          "example": false
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IssueEntity"
+          }
+        }
+      }
+    },
+    "SearchRepositoriesResult": {
+      "required": [
+        "total_count",
+        "incomplete_results",
+        "items"
+      ],
+      "properties": {
+        "total_count": {
+          "type": "integer",
+          "format": "int32",
+          "example": 107
+        },
+        "incomplete_results": {
+          "type": "boolean",
+          "example": false
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RepositoryEntity"
+          }
         }
       }
     },
