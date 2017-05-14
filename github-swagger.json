@@ -107,6 +107,37 @@
         }
       }
     },
+    "/users/{id}/following": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get users who follow user",
+        "operationId": "getUserFollowing",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/UserEntity"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/users/{id}": {
       "get": {
         "tags": [
