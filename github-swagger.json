@@ -198,6 +198,45 @@
         }
       }
     },
+    "/repos/{owner}/{repo}/collaborators": {
+      "get": {
+        "tags": [
+          "Repository"
+        ],
+        "summary": "List collaborators by $owner and $repo",
+        "operationId": "getRepositoryCollaborators",
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "path",
+            "description": "Repository owner",
+            "required": true,
+            "type": "string",
+            "example": "ovr"
+          },
+          {
+            "name": "repo",
+            "in": "path",
+            "description": "Repository name",
+            "required": true,
+            "type": "string",
+            "example": "ghubber"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/UserEntity"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/authorizations": {
       "post": {
         "tags": [
