@@ -35,6 +35,22 @@
             "required": true,
             "type": "string",
             "example": "user:ovr"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "type": "integer",
+            "default": 1
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Limit for page",
+            "required": false,
+            "type": "integer",
+            "default": 30
           }
         ],
         "responses": {
@@ -63,6 +79,22 @@
             "required": true,
             "type": "string",
             "example": "user:ovr"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "type": "integer",
+            "default": 1
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Limit for page",
+            "required": false,
+            "type": "integer",
+            "default": 30
           }
         ],
         "responses": {
