@@ -698,6 +698,46 @@
         }
       }
     },
+    "PushEvent": {
+      "description": "Triggered when a repository branch is pushed to. In addition to branch pushes, webhook push events are also triggered when repository tags are pushed.",
+      "required": [
+        "id",
+        "type",
+        "actor",
+        "repo",
+        "payload",
+        "public"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "example": 5935151556
+        },
+        "type": {
+          "type": "string",
+          "example": "PushEvent"
+        },
+        "actor": {
+          "type": "object"
+        },
+        "repo": {
+          "type": "object"
+        },
+        "payload": {
+          "type": "object"
+        },
+        "public": {
+          "type": "boolean",
+          "example": "true"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2017-05-24T15:42:53Z"
+        }
+      }
+    },
     "RepositoryEntity": {
       "required": [
         "id",
