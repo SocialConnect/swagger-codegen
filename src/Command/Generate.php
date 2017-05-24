@@ -249,6 +249,23 @@ class Generate extends \Symfony\Component\Console\Command\Command
                                         $path->return = "Array<{$definition}>";
                                         continue;
                                     }
+
+                                    if ($schema->items->anyOf) {
+                                        $definitions = [];
+
+                                        foreach ($schema->items->anyOf as $any) {
+                                            if ($any->{'$ref'}) {
+                                                $definitions[] = stripDefinitions(
+                                                    $any->{'$ref'}
+                                                );
+                                            }
+                                        }
+
+                                        if ($definitions) {
+                                            $path->return = 'Array<' . implode('|', $definitions) . '>';
+                                            continue;
+                                        }
+                                    }
                                 }
 
                                 $path->return = "Array<any>";
