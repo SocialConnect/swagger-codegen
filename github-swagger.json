@@ -243,8 +243,17 @@
           "200": {
             "description": "Success",
             "schema": {
-              "type": "object",
-              "$ref": "#/definitions/PushEvent"
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/PushEvent"
+                  },
+                  {
+                    "$ref": "#/definitions/PullRequestEvent"
+                  }
+                ]
+              }
             }
           },
           "404": {
@@ -753,7 +762,8 @@
         "actor",
         "repo",
         "payload",
-        "public"
+        "public",
+        "created_at"
       ],
       "properties": {
         "id": {
@@ -763,7 +773,52 @@
         },
         "type": {
           "type": "string",
-          "example": "PushEvent"
+          "enum": [
+            "PushEvent"
+          ]
+        },
+        "actor": {
+          "type": "object"
+        },
+        "repo": {
+          "type": "object"
+        },
+        "payload": {
+          "type": "object"
+        },
+        "public": {
+          "type": "boolean",
+          "example": "true"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2017-05-24T15:42:53Z"
+        }
+      }
+    },
+    "PullRequestEvent": {
+      "description": "Triggered when a pull request is assigned, unassigned, labeled, unlabeled, opened, edited, closed, reopened, or synchronized. Also triggered when a pull request review is requested, or when a review request is removed",
+      "required": [
+        "id",
+        "type",
+        "actor",
+        "repo",
+        "payload",
+        "public",
+        "created_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "example": 5935151556
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "PullRequestEvent"
+          ]
         },
         "actor": {
           "type": "object"
