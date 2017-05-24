@@ -206,6 +206,53 @@
         }
       }
     },
+    "/users/{id}/received_events": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List events that a user has received",
+        "operationId": "getUserReceivedEvents",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "type": "integer",
+            "default": 1
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Limit for page",
+            "required": false,
+            "type": "integer",
+            "default": 30
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/PushEvent"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/users/{id}": {
       "get": {
         "tags": [
