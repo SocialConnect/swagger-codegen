@@ -600,12 +600,38 @@
         }
       }
     },
+    "/users/orgs": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "List your organizations",
+        "description": "List organizations for the authenticated user",
+        "operationId": "getUserOrganizations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OrganizationEntity"
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/users/{username}/orgs": {
       "get": {
         "tags": [
           "User"
         ],
-        "summary": "List user organizations",
+        "summary": "List user organizationsIntegrations",
+        "description": "List public organization memberships for the specified user",
         "operationId": "getOrganizationsByUsername",
         "parameters": [
           {
