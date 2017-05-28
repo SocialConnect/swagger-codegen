@@ -600,7 +600,7 @@
         }
       }
     },
-    "/users/orgs": {
+    "/user/orgs": {
       "get": {
         "tags": [
           "User"
