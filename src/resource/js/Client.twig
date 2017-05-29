@@ -3,7 +3,7 @@
 const API_BASE_PATH: string = "{{ path }}";
 
 export type FetchOptions = {
-    headers:? Object
+    headers?: Object
 };
 
 function buildQueryString(params: Object): string {
@@ -17,7 +17,7 @@ export function required(key: string) {
     throw new Error(`Missing required parameter: ${key}`);
 }
 
-export function request(url: string, params: Object, method: string = 'GET', options:? FetchOptions) {
+export function request(url: string, params: Object, method: string = 'GET', options?: FetchOptions) {
     return new Promise(
         (resolve, reject) => {
             let requestOptions = Object.assign({}, options, { method: method});
