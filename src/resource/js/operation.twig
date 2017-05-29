@@ -15,7 +15,7 @@ export function {{ operation.operationId }}(
 {% endif %}
 {% endfor %}
     params: {{ operation.operationId }}Params,
-    options:? FetchOptions
+    options?: FetchOptions
 ): Promise<{{ operation.return }}> {
 {% if hasFileParameter %}
     return formDataRequest({{ makePath(operation) }}, params, "{{ operation.method|upper }}", options);
