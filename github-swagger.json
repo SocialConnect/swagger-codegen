@@ -206,6 +206,54 @@
         }
       }
     },
+    "/events": {
+      "get": {
+        "tags": [
+          "GitHub"
+        ],
+        "summary": "List public events",
+        "operationId": "getEvents",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "type": "integer",
+            "default": 1
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Limit for page",
+            "required": false,
+            "type": "integer",
+            "default": 30
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/PushEvent"
+                  },
+                  {
+                    "$ref": "#/definitions/PullRequestEvent"
+                  }
+                ]
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/users/{id}/received_events": {
       "get": {
         "tags": [
