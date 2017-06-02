@@ -824,7 +824,10 @@
       "required": [
         "id",
         "number",
-        "title"
+        "title",
+        "body",
+        "repository_url",
+        "created_at"
       ],
       "properties": {
         "id": {
@@ -840,6 +843,19 @@
         "title": {
           "type": "string",
           "example": "mt_rand is a linear alg, will be better to provide more true way"
+        },
+        "body": {
+          "type": "string",
+          "example": "Text of issue"
+        },
+        "repository_url": {
+          "type": "string",
+          "example": "https://api.github.com/repos/ovr/ghubber"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2017-05-31T05:50:23Z"
         }
       }
     },
