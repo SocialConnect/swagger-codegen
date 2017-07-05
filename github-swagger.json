@@ -844,6 +844,33 @@
         }
       }
     },
+    "LabelEntity": {
+      "required": [
+        "id",
+        "name",
+        "color",
+        "default"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1305162
+        },
+        "name": {
+          "type": "string",
+          "example": "enhancement"
+        },
+        "color": {
+          "type": "string",
+          "example": "84b6eb"
+        },
+        "default": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
     "IssueEntity": {
       "required": [
         "id",
