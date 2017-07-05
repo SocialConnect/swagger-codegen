@@ -20,6 +20,30 @@
     "application/json"
   ],
   "paths": {
+    "/graphql": {
+      "post": {
+        "tags": [
+          "GraphQL"
+        ],
+        "summary": "Execute GraphQL query",
+        "description": "Execute GraphQL query.",
+        "operationId": "executeGraphQL",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "formData",
+            "description": "Username who join Organization",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/search/issues": {
       "get": {
         "tags": [
