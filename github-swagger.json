@@ -878,7 +878,8 @@
         "title",
         "body",
         "repository_url",
-        "created_at"
+        "created_at",
+        "labels"
       ],
       "properties": {
         "id": {
@@ -907,6 +908,12 @@
           "type": "string",
           "format": "date-time",
           "example": "2017-05-31T05:50:23Z"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LabelEntity"
+          }
         }
       }
     },
