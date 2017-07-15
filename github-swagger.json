@@ -871,6 +871,48 @@
         }
       }
     },
+    "NotificationEntity": {
+      "required": [
+        "id",
+        "repository",
+        "subject",
+        "reason",
+        "unread",
+        "updated_at",
+        "last_read_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "example": 216476314
+        },
+        "repository": {
+          "type": "object",
+          "$ref": "#/definitions/RepositoryEntity"
+        },
+        "subject": {
+          "type": "object"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "unread": {
+          "type": "boolean",
+          "example": false
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2014-11-07T22:01:45Z"
+        },
+        "last_read_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2014-11-07T22:01:45Z"
+        }
+      }
+    },
     "IssueEntity": {
       "required": [
         "id",
