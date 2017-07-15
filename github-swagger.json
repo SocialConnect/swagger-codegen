@@ -44,6 +44,61 @@
         }
       }
     },
+    "/notifications": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "List your notifications",
+        "description": "List all notifications for the current user, sorted by most recently updated.",
+        "operationId": "getNotifications",
+        "parameters": [
+          {
+            "name": "all",
+            "in": "query",
+            "description": "If true, show notifications marked as read. Default: false",
+            "required": false,
+            "type": "boolean",
+            "example": false
+          },
+          {
+            "name": "participating",
+            "in": "query",
+            "description": "f true, only shows notifications in which the user is directly participating or mentioned. Default: false",
+            "required": false,
+            "type": "boolean",
+            "example": false
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "type": "integer",
+            "default": 1
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "description": "Limit for page",
+            "required": false,
+            "type": "integer",
+            "default": 30
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/NotificationEntity"
+              }
+            }
+          }
+        }
+      }
+    },
     "/search/issues": {
       "get": {
         "tags": [
