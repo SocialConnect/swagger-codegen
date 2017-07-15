@@ -936,7 +936,7 @@
           "type": "string",
           "example": "Greetings"
         },
-        "repository": {
+        "type": {
           "type": "string",
           "example": "Issue"
         }
