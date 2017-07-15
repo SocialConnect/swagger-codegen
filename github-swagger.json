@@ -926,6 +926,22 @@
         }
       }
     },
+    "NotificationSubject": {
+      "required": [
+        "title",
+        "type"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Greetings"
+        },
+        "repository": {
+          "type": "string",
+          "example": "Issue"
+        }
+      }
+    },
     "NotificationEntity": {
       "required": [
         "id",
@@ -947,7 +963,8 @@
           "$ref": "#/definitions/RepositoryEntity"
         },
         "subject": {
-          "type": "object"
+          "type": "object",
+          "$ref": "#/definitions/NotificationSubject"
         },
         "reason": {
           "type": "string"
