@@ -322,6 +322,12 @@
                   },
                   {
                     "$ref": "#/definitions/PullRequestEvent"
+                  },
+                  {
+                    "$ref": "#/definitions/CommitCommentEvent"
+                  },
+                  {
+                    "$ref": "#/definitions/PullRequestReviewCommentEvent"
                   }
                 ]
               }
