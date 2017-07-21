@@ -1165,6 +1165,51 @@
         }
       }
     },
+    "PullRequestReviewCommentEvent": {
+      "description": "Triggered when a comment on a pull request's unified diff is created, edited, or deleted (in the Files Changed tab).",
+      "required": [
+        "id",
+        "type",
+        "org",
+        "payload",
+        "actor",
+        "repo"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "example": 5935151556
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "PullRequestReviewCommentEvent"
+          ]
+        },
+        "org": {
+          "type": "object"
+        },
+        "payload": {
+          "type": "object"
+        },
+        "actor": {
+          "type": "object"
+        },
+        "repo": {
+          "type": "object"
+        },
+        "public": {
+          "type": "boolean",
+          "example": "true"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2017-05-24T15:42:53Z"
+        }
+      }
+    },
     "RepositoryEntity": {
       "required": [
         "id",
