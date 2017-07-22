@@ -1000,7 +1000,8 @@
         "repository_url",
         "created_at",
         "labels",
-        "user"
+        "user",
+        "milestone"
       ],
       "properties": {
         "id": {
@@ -1036,9 +1037,49 @@
             "$ref": "#/definitions/LabelEntity"
           }
         },
+        "milestone": {
+          "type": "object",
+          "$ref": "#/definitions/MilestoneEntity"
+        },
         "user": {
           "type": "object",
           "$ref": "#/definitions/UserEntity"
+        }
+      }
+    },
+    "MilestoneEntity": {
+      "required": [
+        "id",
+        "number",
+        "state",
+        "title",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 216476314
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32",
+          "example": 32
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "open",
+            "closed"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "example": "v1.0"
+        },
+        "description": {
+          "type": "string",
+          "example": "Tracking milestone for version 1.0"
         }
       }
     },
