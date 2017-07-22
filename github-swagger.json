@@ -1047,6 +1047,59 @@
         }
       }
     },
+    "CommitShortUserEntity": {
+      "required": [
+        "date",
+        "name",
+        "email"
+      ],
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "example": "schacon@gmail.com"
+        },
+        "name": {
+          "type": "string",
+          "example": "Scott Chacon"
+        },
+        "email": {
+          "type": "string",
+          "example": "schacon@gmail.com"
+        }
+      }
+    },
+    "CommitEntity": {
+      "required": [
+        "sha",
+        "url",
+        "message",
+        "author",
+        "committer"
+      ],
+      "properties": {
+        "sha": {
+          "type": "string",
+          "example": "7638417db6d59f3c431d3e1f261cc637155684cd"
+        },
+        "url": {
+          "type": "url",
+          "example": "https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db6d59f3c431d3e1f261cc637155684cd"
+        },
+        "message": {
+          "type": "string",
+          "example": "added readme, because im a good github citizen"
+        },
+        "author": {
+          "type": "object",
+          "$ref": "#/definitions/CommitShortUserEntity"
+        },
+        "committer": {
+          "type": "object",
+          "$ref": "#/definitions/CommitShortUserEntity"
+        }
+      }
+    },
     "MilestoneEntity": {
       "required": [
         "id",
