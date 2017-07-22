@@ -621,7 +621,7 @@
         }
       }
     },
-    "/repos/{owner}/{repo}/git/commits/{sha}": {
+    "/repos/{owner}/{repo}/commits/{sha}": {
       "get": {
         "tags": [
           "Repository"
@@ -660,6 +660,53 @@
             "schema": {
               "type": "object",
               "$ref": "#/definitions/CommitEntity"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/repos/{owner}/{repo}/git/commits/{sha}": {
+      "get": {
+        "tags": [
+          "Repository"
+        ],
+        "summary": "Get a Commit",
+        "operationId": "getRepositoryGitCommit",
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "path",
+            "description": "Repository owner",
+            "required": true,
+            "type": "string",
+            "example": "ovr"
+          },
+          {
+            "name": "repo",
+            "in": "path",
+            "description": "Repository name",
+            "required": true,
+            "type": "string",
+            "example": "ghubber"
+          },
+          {
+            "name": "sha",
+            "in": "path",
+            "description": "Commit's SHA",
+            "required": true,
+            "type": "string",
+            "example": "91d8aa09d81efd44931ba8b90a5ae78e317ff027"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/GitCommitEntity"
             }
           },
           "404": {
@@ -1094,7 +1141,7 @@
         }
       }
     },
-    "CommitShortUserEntity": {
+    "GitCommitShortUserEntity": {
       "required": [
         "date",
         "name",
@@ -1116,7 +1163,104 @@
         }
       }
     },
+    "CommitStatsEntity": {
+      "required": [
+        "additions",
+        "deletions",
+        "total"
+      ],
+      "properties": {
+        "additions": {
+          "type": "number",
+          "format": "int32",
+          "example": 104
+        },
+        "deletions": {
+          "type": "number",
+          "format": "int32",
+          "example": 104
+        },
+        "total": {
+          "type": "number",
+          "format": "int32",
+          "example": 104
+        }
+      }
+    },
+    "CommitVerificationEntity": {
+      "required": [
+        "verified"
+      ],
+      "properties": {
+        "verified": {
+          "type": "boolean",
+          "example": false
+        }
+      }
+    },
+    "CommitCommitEntity": {
+      "required": [
+        "url",
+        "author",
+        "committer",
+        "message",
+        "verification"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "example": "https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db6d59f3c431d3e1f261cc637155684cd"
+        },
+        "author": {
+          "type": "object",
+          "$ref": "#/definitions/GitCommitShortUserEntity"
+        },
+        "committer": {
+          "type": "object",
+          "$ref": "#/definitions/GitCommitShortUserEntity"
+        },
+        "message": {
+          "type": "string",
+          "example": "Fix all the bugs"
+        },
+        "verification": {
+          "type": "object",
+          "$ref": "#/definitions/CommitVerificationEntity"
+        }
+      }
+    },
     "CommitEntity": {
+      "required": [
+        "sha",
+        "url",
+        "author",
+        "committer",
+        "stats"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "example": "https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db6d59f3c431d3e1f261cc637155684cd"
+        },
+        "sha": {
+          "type": "string",
+          "example": "7638417db6d59f3c431d3e1f261cc637155684cd"
+        },
+        "author": {
+          "type": "object",
+          "$ref": "#/definitions/UserEntity"
+        },
+        "committer": {
+          "type": "object",
+          "$ref": "#/definitions/UserEntity"
+        },
+        "stats": {
+          "type": "object",
+          "$ref": "#/definitions/CommitStatsEntity"
+        }
+      }
+    },
+    "GitCommitEntity": {
       "required": [
         "sha",
         "url",
@@ -1130,7 +1274,7 @@
           "example": "7638417db6d59f3c431d3e1f261cc637155684cd"
         },
         "url": {
-          "type": "url",
+          "type": "string",
           "example": "https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db6d59f3c431d3e1f261cc637155684cd"
         },
         "message": {
@@ -1139,11 +1283,11 @@
         },
         "author": {
           "type": "object",
-          "$ref": "#/definitions/CommitShortUserEntity"
+          "$ref": "#/definitions/GitCommitShortUserEntity"
         },
         "committer": {
           "type": "object",
-          "$ref": "#/definitions/CommitShortUserEntity"
+          "$ref": "#/definitions/GitCommitShortUserEntity"
         }
       }
     },
