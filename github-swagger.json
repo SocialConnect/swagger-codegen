@@ -621,6 +621,53 @@
         }
       }
     },
+    "/repos/{owner}/{repo}/git/commits/{sha}": {
+      "get": {
+        "tags": [
+          "Repository"
+        ],
+        "summary": "Get a Commit",
+        "operationId": "getRepositoryCommit",
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "path",
+            "description": "Repository owner",
+            "required": true,
+            "type": "string",
+            "example": "ovr"
+          },
+          {
+            "name": "repo",
+            "in": "path",
+            "description": "Repository name",
+            "required": true,
+            "type": "string",
+            "example": "ghubber"
+          },
+          {
+            "name": "sha",
+            "in": "path",
+            "description": "Commit's SHA",
+            "required": true,
+            "type": "string",
+            "example": "91d8aa09d81efd44931ba8b90a5ae78e317ff027"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/CommitEntity"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/authorizations": {
       "post": {
         "tags": [
