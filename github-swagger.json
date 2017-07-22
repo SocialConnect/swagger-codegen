@@ -999,7 +999,8 @@
         "body",
         "repository_url",
         "created_at",
-        "labels"
+        "labels",
+        "user"
       ],
       "properties": {
         "id": {
@@ -1034,6 +1035,10 @@
           "items": {
             "$ref": "#/definitions/LabelEntity"
           }
+        },
+        "user": {
+          "type": "object",
+          "$ref": "#/definitions/UserEntity"
         }
       }
     },
