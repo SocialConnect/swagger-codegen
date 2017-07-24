@@ -580,6 +580,52 @@
         }
       }
     },
+    "/repos/{owner}/{repo}/issues/{id}": {
+      "get": {
+        "tags": [
+          "Repository"
+        ],
+        "summary": "Get a single issue",
+        "operationId": "getRepositoryIssue",
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "path",
+            "description": "Repository owner",
+            "required": true,
+            "type": "string",
+            "example": "ovr"
+          },
+          {
+            "name": "repo",
+            "in": "path",
+            "description": "Repository name",
+            "required": true,
+            "type": "string",
+            "example": "ghubber"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Issue ID",
+            "required": true,
+            "type": "integer",
+            "example": 41
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RepositoryEntity"
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/repos/{owner}/{repo}/collaborators": {
       "get": {
         "tags": [
