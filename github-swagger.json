@@ -1136,6 +1136,7 @@
         "id",
         "number",
         "title",
+        "state",
         "body",
         "repository_url",
         "created_at",
@@ -1153,6 +1154,14 @@
           "type": "integer",
           "format": "int32",
           "example": 32
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "open",
+            "closed"
+          ],
+          "example": "open"
         },
         "title": {
           "type": "string",
