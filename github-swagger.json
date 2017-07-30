@@ -626,6 +626,55 @@
         }
       }
     },
+    "/repos/{owner}/{repo}/issues/{number}/comments": {
+      "get": {
+        "tags": [
+          "Issue"
+        ],
+        "summary": "List comments on an issueEnabled for GitHub Apps",
+        "operationId": "getIssueComments",
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "path",
+            "description": "Repository owner",
+            "required": true,
+            "type": "string",
+            "example": "ovr"
+          },
+          {
+            "name": "repo",
+            "in": "path",
+            "description": "Repository name",
+            "required": true,
+            "type": "string",
+            "example": "ghubber"
+          },
+          {
+            "name": "number",
+            "in": "path",
+            "description": "Issue Number",
+            "required": true,
+            "type": "integer",
+            "example": 41
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CommentEntity"
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/repos/{owner}/{repo}/collaborators": {
       "get": {
         "tags": [
@@ -1125,6 +1174,40 @@
           "example": "2014-11-07T22:01:45Z"
         },
         "last_read_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2014-11-07T22:01:45Z"
+        }
+      }
+    },
+    "CommentEntity": {
+      "required": [
+        "id",
+        "body",
+        "user",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "example": 216476314
+        },
+        "body": {
+          "type": "string",
+          "example": "Me too"
+        },
+        "user": {
+          "type": "object",
+          "$ref": "#/definitions/UserEntity"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2014-11-07T22:01:45Z"
+        },
+        "updated_at": {
           "type": "string",
           "format": "date-time",
           "example": "2014-11-07T22:01:45Z"
