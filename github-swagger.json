@@ -1138,6 +1138,7 @@
         "title",
         "state",
         "body",
+        "comments",
         "repository_url",
         "created_at",
         "labels",
@@ -1154,6 +1155,11 @@
           "type": "integer",
           "format": "int32",
           "example": 32
+        },
+        "comments": {
+          "type": "integer",
+          "format": "int32",
+          "example": 5
         },
         "state": {
           "type": "string",
