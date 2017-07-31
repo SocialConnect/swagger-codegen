@@ -255,9 +255,11 @@ class Generate extends \Symfony\Component\Console\Command\Command
 
                                         foreach ($schema->items->anyOf as $any) {
                                             if ($any->{'$ref'}) {
-                                                $definitions[] = stripDefinitions(
+                                                $definitions[] = $definition = stripDefinitions(
                                                     $any->{'$ref'}
                                                 );
+
+                                                $imports[$definition] = $definition;
                                             }
                                         }
 
