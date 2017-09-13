@@ -1050,7 +1050,9 @@
         "id",
         "login",
         "avatar_url",
-        "description"
+        "description",
+        "name",
+        "blog"
       ],
       "properties": {
         "id": {
@@ -1069,6 +1071,14 @@
         "description": {
           "type": "string",
           "example": "Connect your code with Services"
+        },
+        "name": {
+          "type": "string",
+          "example": "Social Connect"
+        },
+        "blog": {
+          "type": "string",
+          "example": "https://sc.lowl.io/"
         }
       }
     },
