@@ -1052,7 +1052,7 @@
         "avatar_url",
         "description",
         "name",
-        "website"
+        "blog"
       ],
       "properties": {
         "id": {
@@ -1076,7 +1076,7 @@
           "type": "string",
           "example": "Social Connect"
         },
-        "website": {
+        "blog": {
           "type": "string",
           "example": "https://sc.lowl.io/"
         }
