@@ -810,6 +810,33 @@
         }
       }
     },
+    "/reactions/{id}": {
+      "delete": {
+        "tags": [
+          "Reaction"
+        ],
+        "summary": "Delete a reaction",
+        "operationId": "deleteReaction",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Reaction identifier",
+            "required": true,
+            "type": "string",
+            "example": "ovr"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/authorizations": {
       "post": {
         "tags": [
