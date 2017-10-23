@@ -810,6 +810,65 @@
         }
       }
     },
+    "/repos/{owner}/{repo}/issues/{number}/reactions": {
+      "delete": {
+        "tags": [
+          "Reaction"
+        ],
+        "summary": "Create reaction for an issue",
+        "operationId": "createReactionOnIssue",
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "path",
+            "description": "Owner of the repository",
+            "required": true,
+            "type": "string",
+            "example": "ovr"
+          },
+          {
+            "name": "repo",
+            "in": "path",
+            "description": "Repository name",
+            "required": true,
+            "type": "string",
+            "example": "ghubber"
+          },
+          {
+            "name": "number",
+            "in": "path",
+            "description": "ID of the issue",
+            "required": true,
+            "type": "string",
+            "example": "60"
+          },
+          {
+            "name": "content",
+            "in": "formData",
+            "description": "The reaction type",
+            "required": true,
+            "type": "string",
+            "example": "heart",
+            "enum": [
+              "+1",
+              "-1",
+              "laugh",
+              "confused",
+              "heart",
+              "hooray"
+            ]
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/reactions/{id}": {
       "delete": {
         "tags": [
@@ -824,7 +883,7 @@
             "description": "Reaction identifier",
             "required": true,
             "type": "string",
-            "example": "ovr"
+            "example": "1111"
           }
         ],
         "responses": {
