@@ -1,12 +1,4 @@
 {% include 'params.twig' with {'operationId': operation.operationId, 'parameters': operation.parameters} %}
-{% spaceless %}
-{% set hasFileParameter = false %}
-{% for parameter in operation.parameters %}
-    {% if parameter.in == "file" %}
-        {% set hasFileParameter = true %}
-    {% endif %}
-{% endfor %}
-{% endspaceless %}
 
 export function {{ operation.operationId }}(
 {% for parameter in operation.parameters %}
@@ -17,9 +9,5 @@ export function {{ operation.operationId }}(
     params: {{ operation.operationId }}Params,
     options?: FetchOptions
 ): Promise<{{ operation.return }}> {
-{% if hasFileParameter %}
-    return formDataRequest({{ makePath(operation) }}, params, "{{ operation.method|upper }}", options);
-{% else %}
     return request({{ makePath(operation) }}, params, "{{ operation.method|upper }}", options);
-{% endif %}
 }
