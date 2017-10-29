@@ -869,6 +869,56 @@
         }
       }
     },
+    "/user/following/{username}": {
+      "put": {
+        "tags": [
+          "Followers"
+        ],
+        "summary": "Follow a user",
+        "operationId": "followUser",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "username",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Followers"
+        ],
+        "summary": "Unfollow a user",
+        "operationId": "unfollowUser",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "username",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/reactions/{id}": {
       "delete": {
         "tags": [
