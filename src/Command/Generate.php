@@ -305,7 +305,13 @@ class Generate extends \Symfony\Component\Console\Command\Command
         file_put_contents($outputPath . '/definitions.js', $result);
 
 
-        $path = current($swagger->schemes) . '://' . $swagger->host;
+        $protocol = 'https';
+
+        if ($swagger->schemes) {
+            $protocol = current($swagger->schemes);
+        }
+
+        $path = $protocol . '://' . $swagger->host;
 
         if ($swagger->basePath) {
             $path .= $swagger->basePath;
