@@ -319,5 +319,14 @@ class Generate extends \Symfony\Component\Console\Command\Command
         );
 
         file_put_contents($outputPath . '/Client.js', $result);
+
+        $result = $twig->render(
+            'index.twig',
+            [
+                'files' => array_keys($tags)
+            ]
+        );
+
+        file_put_contents($outputPath . '/index.js', $result);
     }
 }

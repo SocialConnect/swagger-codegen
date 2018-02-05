@@ -1,0 +1,6 @@
+// @flow
+
+export * from './Client.js';
+{% for file in files %}
+export * from './{{ file }}.js';
+{% endfor %}
