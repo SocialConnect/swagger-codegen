@@ -60,11 +60,13 @@ function makeClient() {
 
                     fetch(API_BASE_PATH + url, requestOptions).then(
                         (response) => {
-                                if (response.status >= 200 && response.status < 300) {
-                                    resolve(response.json());
-                                } else {
-                                    reject(response);
-                                }
+                            if (response.status == 204) {
+                                resolve();
+                            } else if (response.status >= 200 && response.status < 300) {
+                                resolve(response.json());
+                            } else {
+                                reject(response);
+                            }
                         },
                         (err) => reject(err)
                     )
