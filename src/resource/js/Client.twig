@@ -24,54 +24,52 @@ function makeClient() {
         before: (middleware: BeforeMiddleware) => {
             before.push(middleware);
         },
-        request (url: string, params: Object, method: string = 'GET', options?: FetchOptions): Promise<any> {
+        request async (url: string, params: Object, method: string = 'GET', options?: FetchOptions): Promise<any> => {
             let requestOptions = Object.assign({}, options, {method: method});
 
             if (before) {
                 before.forEach((middleware) => middleware(requestOptions));
             }
 
-            return new Promise(
-                (resolve, reject) => {
-                    if (method == 'POST' || method == 'PUT') {
-                        if (requestOptions.headers) {
-                            requestOptions.headers = Object.assign(
-                                requestOptions.headers,
-                                {
-                                    "Content-Type": "application/x-www-form-urlencoded"
-                                }
-                            );
-                        } else {
-                            requestOptions.headers = {
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            };
+            if (method == 'POST' || method == 'PUT') {
+                if (requestOptions.headers) {
+                    requestOptions.headers = Object.assign(
+                        requestOptions.headers,
+                        {
+                        "Content-Type": "application/x-www-form-urlencoded"
                         }
-
-                        requestOptions = Object.assign(
-                            requestOptions,
-                            {
-                                body: buildQueryString(params)
-                            }
-                        )
-
-                    } else if (params && Object.keys(params).length > 0) { // Check that parameters exists
-                        url += '?' + buildQueryString(params)
-                    }
-
-                    fetch(API_BASE_PATH + url, requestOptions).then(
-                        (response) => {
-                            if (response.status == 204) {
-                                resolve();
-                            } else if (response.status >= 200 && response.status < 300) {
-                                resolve(response.json());
-                            } else {
-                                reject(response);
-                            }
-                        },
-                        (err) => reject(err)
-                    )
+                    );
+                } else {
+                    requestOptions.headers = {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    };
                 }
-            )
+
+                requestOptions = Object.assign(
+                    requestOptions,
+                    {
+                        body: buildQueryString(params)
+                    }
+                )
+            } else if (params && Object.keys(params).length > 0) { // Check that parameters exists
+                url += '?' + buildQueryString(params)
+            }
+
+            try {
+                const response = await fetch(API_BASE_PATH + url, requestOptions);
+
+                if (response.status == 204) {
+                    return;
+                }
+
+                if (response.status >= 200 && response.status < 300) {
+                    return await response.json();
+                }
+
+                return response;
+            } catch (err) {
+                return Promise.reject(err);
+            }
         }
     };
 }
