@@ -24,7 +24,7 @@ function makeClient() {
         before: (middleware: BeforeMiddleware) => {
             before.push(middleware);
         },
-        request async (url: string, params: Object, method: string = 'GET', options?: FetchOptions): Promise<any> => {
+        request: async (url: string, params: Object, method: string = 'GET', options?: FetchOptions): Promise<any> => {
             let requestOptions = Object.assign({}, options, {method: method});
 
             if (before) {
