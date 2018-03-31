@@ -1,7 +1,7 @@
 
 export type {{ operationId }}Params = {
 {% for parameter in parameters %}
-{% if parameter.in != "path" %}
+{% if parameter.in != "path" and parameter.in != "body" %}
     {{ parameter.name|flowFieldEscape|raw }}{{ parameter.required ? ':' : '?:' }} {{ flowParameterType(parameter)|raw }},
 {% endif %}
 {% endfor %}
