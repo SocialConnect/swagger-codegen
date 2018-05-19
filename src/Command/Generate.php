@@ -32,6 +32,14 @@ function stripDefinitions($value) {
     return $value;
 }
 
+function stripParameters($value) {
+    if (strpos($value, '#/parameters/') === 0) {
+        return substr($value, 13);
+    }
+
+    return $value;
+}
+
 class Generate extends \Symfony\Component\Console\Command\Command
 {
     public function configure()
@@ -98,9 +106,27 @@ class Generate extends \Symfony\Component\Console\Command\Command
         $twig->addFunction(
             new \Twig_Function(
                 'flowParameterType',
-                function (\Swagger\Annotations\Parameter $parameter) {
+                function (\Swagger\Annotations\Parameter $parameter) use ($swagger) {
                     if ($parameter->enum) {
                         return flowTypeEscape($parameter->type, $parameter->enum);
+                    }
+
+                    if ($parameter->ref) {
+                        foreach ($swagger->parameters as $param) {
+                            $stripped = stripParameters($parameter->ref);
+
+                            if ($stripped === $param->name) {
+                                if ($param->type === 'integer') {
+                                    return 'number';
+                                }
+
+                                if ($param->enum) {
+                                    return flowTypeEscape($param->type, $param->enum);
+                                }
+
+                                return $param->type;
+                            }
+                        }
                     }
 
                     switch ($parameter->type) {
