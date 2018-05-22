@@ -37,8 +37,8 @@ class Generate extends \Symfony\Component\Console\Command\Command
     public function configure()
     {
         $this->setName('generate')
-            ->addArgument('swagger-path', InputArgument::REQUIRED, 'Path to swagger file')
-            ->addArgument('output-path', InputArgument::REQUIRED, 'Where we should put generate module');
+             ->addArgument('swagger-path', InputArgument::REQUIRED, 'Path to swagger file')
+             ->addArgument('output-path', InputArgument::REQUIRED, 'Where we should put generate module');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

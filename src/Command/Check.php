@@ -14,7 +14,7 @@ class Check extends \Symfony\Component\Console\Command\Command
     public function configure()
     {
         $this->setName('check')
-            ->addArgument('swagger-path', InputArgument::REQUIRED, 'Path to swagger file');
+             ->addArgument('swagger-path', InputArgument::REQUIRED, 'Path to swagger file');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -35,8 +35,7 @@ class Check extends \Symfony\Component\Console\Command\Command
             }
         );
 
-        /** @var \Swagger\Annotations\Swagger $swagger */
-        $swagger = $swaggerSerializer->deserialize(
+        $swaggerSerializer->deserialize(
             $swaggerPathContent,
             \Swagger\Annotations\Swagger::class
         );
