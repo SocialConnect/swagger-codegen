@@ -9,7 +9,7 @@ class Application extends \Symfony\Component\Console\Application
 {
     public function __construct()
     {
-        parent::__construct('Swagger CodeGen', "0.0.1");
+        parent::__construct('Swagger CodeGen', "0.2.3");
 
         $this->add(new Command\Check());
         $this->add(new Command\Generate());
