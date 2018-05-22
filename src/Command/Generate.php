@@ -40,6 +40,27 @@ function stripParameters($value) {
     return $value;
 }
 
+function handleFlowParameterType($parameter) {
+    if ($parameter->enum) {
+        return flowTypeEscape($parameter->type, $parameter->enum);
+    }
+
+    switch ($parameter->type) {
+        case 'file':
+            return 'File';
+        case 'integer':
+            return 'number';
+        case 'array':
+            if ($parameter->items) {
+                return "Array<{$parameter->items->type}>";
+            }
+
+            return "Array<any>";
+        default:
+            return $parameter->type;
+    }
+}
+
 class Generate extends \Symfony\Component\Console\Command\Command
 {
     public function configure()
@@ -112,37 +133,15 @@ class Generate extends \Symfony\Component\Console\Command\Command
                     }
 
                     if ($parameter->ref) {
+                        $stripped = stripParameters($parameter->ref);
                         foreach ($swagger->parameters as $param) {
-                            $stripped = stripParameters($parameter->ref);
-
                             if ($stripped === $param->name) {
-                                if ($param->type === 'integer') {
-                                    return 'number';
-                                }
-
-                                if ($param->enum) {
-                                    return flowTypeEscape($param->type, $param->enum);
-                                }
-
-                                return $param->type;
+                                return handleFlowParameterType($param);
                             }
                         }
                     }
 
-                    switch ($parameter->type) {
-                        case 'file':
-                            return 'File';
-                        case 'integer':
-                            return 'number';
-                        case 'array':
-                            if ($parameter->items) {
-                                return "Array<{$parameter->items->type}>";
-                            }
-
-                            return "Array<any>";
-                        default:
-                            return $parameter->type;
-                    }
+                    return handleFlowParameterType($parameter);
                 }
             )
         );
