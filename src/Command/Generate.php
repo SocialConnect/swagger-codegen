@@ -148,6 +148,20 @@ class Generate extends \Symfony\Component\Console\Command\Command
 
         $twig->addFunction(
             new \Twig_Function(
+                'flowParameterWithRef',
+                function (\Swagger\Annotations\Parameter $parameter) use ($swagger) {
+                    $stripped = stripParameters($parameter->ref);
+                    foreach ($swagger->parameters as $param) {
+                        if ($stripped === $param->name) {
+                            return $param;
+                        }
+                    }
+                }
+            )
+        );
+
+        $twig->addFunction(
+            new \Twig_Function(
                 'makePath',
                 function (\Swagger\Annotations\Operation $operation) {
                     $path = $operation->path;
