@@ -3,7 +3,8 @@ export type {{ operationId }}Params = {
 {% for parameter in parameters %}
 {% if parameter.in != "path" and parameter.in != "body" %}
 {% if parameter.ref %}
-    {{ parameter.ref[13:]|flowFieldEscape|raw }}{{ parameter.required ? ':' : '?:' }} {{ flowParameterType(parameter)|raw }},
+{% set param = flowParameterWithRef(parameter) %}
+    {{ param.name|flowFieldEscape|raw }}{{ param.required ? ':' : '?:' }} {{ flowParameterType(parameter)|raw }},
 {% else %}
     {{ parameter.name|flowFieldEscape|raw }}{{ parameter.required ? ':' : '?:' }} {{ flowParameterType(parameter)|raw }},
 {% endif %}
