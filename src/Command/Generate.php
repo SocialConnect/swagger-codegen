@@ -132,15 +132,6 @@ class Generate extends \Symfony\Component\Console\Command\Command
                         return flowTypeEscape($parameter->type, $parameter->enum);
                     }
 
-                    if ($parameter->ref) {
-                        $stripped = stripParameters($parameter->ref);
-                        foreach ($swagger->parameters as $param) {
-                            if ($stripped === $param->name) {
-                                return handleFlowParameterType($param);
-                            }
-                        }
-                    }
-
                     return handleFlowParameterType($parameter);
                 }
             )
@@ -148,7 +139,7 @@ class Generate extends \Symfony\Component\Console\Command\Command
 
         $twig->addFunction(
             new \Twig_Function(
-                'flowParameterWithRef',
+                'extractParameterByRef',
                 function (\Swagger\Annotations\Parameter $parameter) use ($swagger) {
                     $stripped = stripParameters($parameter->ref);
                     foreach ($swagger->parameters as $param) {
