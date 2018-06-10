@@ -40,7 +40,16 @@ function stripParameters($value) {
     return $value;
 }
 
-function handleFlowParameterType($parameter) {
+function handleFlowParameterType(\Swagger\Annotations\Parameter $parameter) {
+    if ($parameter->schema) {
+        if ($parameter->schema->ref) {
+            return stripDefinitions($parameter->schema->ref);
+        }
+
+        // @todo Think about it
+        return 'any';
+    }
+
     if ($parameter->enum) {
         return flowTypeEscape($parameter->type, $parameter->enum);
     }
