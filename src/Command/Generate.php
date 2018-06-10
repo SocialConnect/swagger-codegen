@@ -220,6 +220,58 @@ class Generate extends \Symfony\Component\Console\Command\Command
             )
         );
 
+        $twig->addFunction(
+            new \Twig_Function(
+                'flowReturnType',
+                function (\Swagger\Annotations\Operation $operation) {
+                    if ($operation->responses) {
+                        /** @var \Swagger\Annotations\Response $response */
+                        foreach ($operation->responses as $response) {
+                            if ($response->schema) {
+                                $schema = $response->schema;
+
+                                if ($schema->type === 'array') {
+                                    if ($schema->items) {
+                                        if ($schema->items->ref) {
+                                            $definition = stripDefinitions($schema->items->ref);
+
+                                            return "Array<{$definition}>";
+                                        }
+
+                                        if ($schema->items->anyOf) {
+                                            $definitions = [];
+
+                                            foreach ($schema->items->anyOf as $any) {
+                                                if ($any->{'$ref'}) {
+                                                    $definitions[] = $definition = stripDefinitions(
+                                                        $any->{'$ref'}
+                                                    );
+
+                                                    $imports[$definition] = $definition;
+                                                }
+                                            }
+
+                                            if ($definitions) {
+                                                return 'Array<' . implode('|', $definitions) . '>';
+                                            }
+                                        }
+                                    }
+
+                                   return "Array<any>";
+                                }
+
+                                if ($schema->ref) {
+                                    return stripDefinitions($schema->ref);
+                                }
+                            }
+                        }
+                    }
+
+                    return 'any';
+                }
+            )
+        );
+
         $tags = [];
 
         $populateTag = function ($path) use (&$tags) {
@@ -269,10 +321,8 @@ class Generate extends \Symfony\Component\Console\Command\Command
         foreach ($tags as $tag => $paths) {
             $imports = [];
 
-            /** @var \Swagger\Annotations\Post $path */
+            /** @var \Swagger\Annotations\Operation $path */
             foreach ($paths as $path) {
-                $path->return = 'any';
-
                 if ($path->responses) {
                     /** @var \Swagger\Annotations\Response $response */
                     foreach ($path->responses as $response) {
@@ -285,7 +335,6 @@ class Generate extends \Symfony\Component\Console\Command\Command
                                         $definition = stripDefinitions($schema->items->ref);
                                         $imports[$definition] = $definition;
 
-                                        $path->return = "Array<{$definition}>";
                                         continue;
                                     }
 
@@ -301,22 +350,13 @@ class Generate extends \Symfony\Component\Console\Command\Command
                                                 $imports[$definition] = $definition;
                                             }
                                         }
-
-                                        if ($definitions) {
-                                            $path->return = 'Array<' . implode('|', $definitions) . '>';
-                                            continue;
-                                        }
                                     }
                                 }
-
-                                $path->return = "Array<any>";
                             }
 
                             if ($schema->ref) {
                                 $definition = stripDefinitions($schema->ref);
                                 $imports[$definition] = $definition;
-
-                                $path->return = $definition;
                             }
                         }
                     }

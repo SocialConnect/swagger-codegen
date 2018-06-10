@@ -8,6 +8,6 @@ export function {{ operation.operationId }}(
 {% endfor %}
     params: {{ operation.operationId }}Params,
     options?: FetchOptions
-): Promise<{{ operation.return }}> {
+): Promise<{{ flowReturnType(operation)|raw }}> {
     return request({{ makePath(operation) }}, params, "{{ operation.method|upper }}", options);
 }
