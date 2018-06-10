@@ -1,0 +1,86 @@
+// @flow
+
+const API_BASE_PATH: string = "https://api.github.com";
+
+export type FetchOptions = {
+    headers?: Object
+};
+
+function buildQueryString(params: Object): string {
+    return Object.keys(params)
+        .filter(v => v !== null)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+}
+
+function required(key: string) {
+    throw new Error(`Missing required parameter: ${key}`);
+}
+
+function makeClient() {
+    let before: Array<BeforeMiddleware> = [];
+
+    return {
+        before: (middleware: BeforeMiddleware) => {
+            before.push(middleware);
+        },
+        request: async (url: string, params: Object, method: string = 'GET', options?: FetchOptions): Promise<any> => {
+            let requestOptions = Object.assign({}, options, {method: method});
+
+            if (before) {
+                before.forEach((middleware) => middleware(requestOptions));
+            }
+
+            if (method == 'POST' || method == 'PUT') {
+                if (requestOptions.headers) {
+                    requestOptions.headers = Object.assign(
+                        requestOptions.headers,
+                        {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                        }
+                    );
+                } else {
+                    requestOptions.headers = {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    };
+                }
+
+                requestOptions = Object.assign(
+                    requestOptions,
+                    {
+                        body: buildQueryString(params)
+                    }
+                )
+            } else if (params && Object.keys(params).length > 0) { // Check that parameters exists
+                url += '?' + buildQueryString(params)
+            }
+
+            try {
+                const response = await fetch(API_BASE_PATH + url, requestOptions);
+
+                if (response.status == 204) {
+                    return;
+                }
+
+                if (response.status >= 200 && response.status < 300) {
+                    return await response.json();
+                }
+
+                return response;
+            } catch (err) {
+                return Promise.reject(err);
+            }
+        }
+    };
+}
+
+const defaultClient = makeClient();
+const before = defaultClient.before;
+const request = defaultClient.request;
+
+export {
+    required,
+    makeClient,
+    before,
+    request,
+}
