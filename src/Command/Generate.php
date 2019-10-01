@@ -5,6 +5,7 @@
 
 namespace SocialConnect\SCG\Command;
 
+use SocialConnect\SCG\Format\FormatFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -74,9 +75,12 @@ class Generate extends \Symfony\Component\Console\Command\Command
 {
     public function configure()
     {
-        $this->setName('generate')
-             ->addArgument('swagger-path', InputArgument::REQUIRED, 'Path to swagger file')
-             ->addArgument('output-path', InputArgument::REQUIRED, 'Where we should put generate module');
+        $this
+            ->setName('generate')
+            ->addArgument('swagger-path', InputArgument::REQUIRED, 'Path to swagger file')
+            ->addArgument('output-path', InputArgument::REQUIRED, 'Where we should put generate module')
+            ->addArgument('format', InputArgument::REQUIRED, '')
+        ;
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -84,6 +88,9 @@ class Generate extends \Symfony\Component\Console\Command\Command
         $swaggerPath = $input->getArgument('swagger-path');
         $outputPath = $input->getArgument('output-path');
 
+        $format = FormatFactory::factory(
+            $input->getArgument('format')
+        );
 
         $swaggerPathContent = file_get_contents($swaggerPath);
 
@@ -109,7 +116,7 @@ class Generate extends \Symfony\Component\Console\Command\Command
 
         $loader = new \Twig_Loader_Filesystem(
             [
-                realpath(__DIR__ . '/../') . '/resource/js/'
+                realpath(__DIR__ . '/../') . "/resource/{$format->getName()}/"
             ]
         );
 
@@ -371,7 +378,7 @@ class Generate extends \Symfony\Component\Console\Command\Command
                 ]
             );
 
-            file_put_contents($outputPath . '/' . $tag . '.js', $result);
+            file_put_contents($outputPath . '/' . $tag . '.' . $format->getFileExt(), $result);
         }
 
         $result = $twig->render(
@@ -381,7 +388,7 @@ class Generate extends \Symfony\Component\Console\Command\Command
             ]
         );
 
-        file_put_contents($outputPath . '/definitions.js', $result);
+        file_put_contents($outputPath . '/definitions' . '.' . $format->getFileExt(), $result);
 
 
         $protocol = 'https';
@@ -403,7 +410,7 @@ class Generate extends \Symfony\Component\Console\Command\Command
             ]
         );
 
-        file_put_contents($outputPath . '/Client.js', $result);
+        file_put_contents($outputPath . '/Client' . '.' . $format->getFileExt(), $result);
 
         $result = $twig->render(
             'index.twig',
@@ -412,6 +419,6 @@ class Generate extends \Symfony\Component\Console\Command\Command
             ]
         );
 
-        file_put_contents($outputPath . '/index.js', $result);
+        file_put_contents($outputPath . '/index' . '.' . $format->getFileExt(), $result);
     }
 }
